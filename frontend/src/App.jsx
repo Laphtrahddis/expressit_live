@@ -7,6 +7,7 @@ import Login from "./pages/Login"; // Ensure the correct path to Login component
 import Register from "./pages/Register"; // Ensure the correct path to Register component
 import Home from "./pages/Home"; // Ensure the correct path to Home component
 import PostDetails from "./pages/PostDetails";
+import CreatePost from "./pages/CreatePost";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,7 +19,8 @@ function App() {
           <Route exact path="/" element={<Home />} />  
           <Route exact path="/login" element={<Login />} />  
           <Route exact path="/register" element={<Register />} />
-          <Route exact path="/posts/post/:id" element={<PostDetails />} />  
+          <Route exact path="/posts/post/:id" element={<PostDetails />} /> 
+          <Route exact path="/write" element={<CreatePost />} />  
         </Routes>
         
       </div>
