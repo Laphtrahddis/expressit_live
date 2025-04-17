@@ -17,11 +17,11 @@ const PostDetails = () => {
                 Revolutionary Applications of Artificial Intelligence in Modern Technology
               </h1>
               <div className="flex gap-2 ml-4">
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <BiEdit className="w-5 h-5 text-gray-600" />
+                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors hover:text-blue-600">
+                  <BiEdit className="w-5 h-5" />
                 </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <MdDelete className="w-5 h-5 text-red-600" />
+                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors hover:text-red-600">
+                  <MdDelete className="w-5 h-5" />
                 </button>
               </div>
             </div>
@@ -30,7 +30,7 @@ const PostDetails = () => {
             <div className="flex items-center justify-between text-gray-600">
               <div className="flex items-center gap-2">
                 <MdAccountCircle className="w-6 h-6" />
-                <span className="font-medium">Niharika Sharma</span>
+                <span className="font-medium">Niharika Barnwal</span>
               </div>
               <div className="flex items-center gap-2">
                 <BiTime className="w-5 h-5" />

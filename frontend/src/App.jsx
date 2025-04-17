@@ -8,6 +8,8 @@ import Register from "./pages/Register"; // Ensure the correct path to Register 
 import Home from "./pages/Home"; // Ensure the correct path to Home component
 import PostDetails from "./pages/PostDetails";
 import CreatePost from "./pages/CreatePost";
+import EditPost from "./pages/EditPost";
+import Profile from "./pages/Profile"; // Ensure the correct path to Profile component
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,6 +23,8 @@ function App() {
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/posts/post/:id" element={<PostDetails />} /> 
           <Route exact path="/write" element={<CreatePost />} />  
+          <Route exact path="/edit/:id" element={<EditPost />} /> 
+          <Route exact path="/profile/:id" element={<Profile />} />   
         </Routes>
         
       </div>
