@@ -9,7 +9,9 @@ const jwt=require('jsonwebtoken')
 router.post("/register",async(req,res)=>{
     try {
         const {username,email,password}=req.body
-        const newUser=new User({username,email,password})
+        const salt=await bcrypt.genSalt(10)
+        const hashedPassword=await bcrypt.hashSync(password,salt)
+        const newUser=new User({username,email,password:hashedPassword})
         const savedUser=await newUser.save()
         res.status(200).json(savedUser)
     } catch (error) {
@@ -20,9 +22,41 @@ router.post("/register",async(req,res)=>{
 
 //LOGIN
 
+router.post("/login",async(req,res)=>{
+    try{
+        const user=await User.findOne({email:req.body.email})
+        if(!user){
+            return res.status(404).json("User not found")
+        }
+        const match=await bcrypt.compare(req.body.password,user.password)
+        if(!match){
+            return res.status(401).json("Wrong Credentials")
+
+
+        }
+        const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"3d"})
+        const {password,...info}=user._doc
+        res.cookie("token",token).status(200).json({info})
+        
+
+
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+})
+
 
 //LOGOUT
+router.get("/logout",async(req,res)=>{
+    try {
 
+        res.clearCookie("token",{sameSite:"none",secure:true}).status(200).json("User logged out successfully")
+    } 
+    catch (error) {
+        res.status(500).json(error)
+    }
+})
 
 
 
