@@ -10,13 +10,13 @@ import PostDetails from "./pages/PostDetails";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import Profile from "./pages/Profile"; // Ensure the correct path to Profile component
+import { UserContextProvider } from "./context/UserContext";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
-      <div>
+    <UserContextProvider>
         <Routes>
           <Route exact path="/" element={<Home />} />  
           <Route exact path="/login" element={<Login />} />  
@@ -26,9 +26,7 @@ function App() {
           <Route exact path="/edit/:id" element={<EditPost />} /> 
           <Route exact path="/profile/:id" element={<Profile />} />   
         </Routes>
-        
-      </div>
-    </>
+    </UserContextProvider>
   );
 }
 
