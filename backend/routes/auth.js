@@ -34,7 +34,7 @@ router.post("/login",async(req,res)=>{
 
 
         }
-        const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"3d"})
+        const token=jwt.sign({_id:user._id,username:user.username,email:user.email},process.env.JWT_SECRET,{expiresIn:"3d"})
         const {password,...info}=user._doc
         res.cookie("token",token).status(200).json({info})
         
@@ -58,6 +58,15 @@ router.get("/logout",async(req,res)=>{
     }
 })
 
-
+//REFETCH USER
+router.get("/refetch",async(req,res)=>{
+    const token=req.cookies.token
+    jwt.verify(token,process.env.JWT_SECRET,{},async (err,data)=>{
+        if(err){
+            return res.status(401).json("Token expired")
+        }
+        res.status(200).json(data)
+    })
+})
 
 module.exports=router

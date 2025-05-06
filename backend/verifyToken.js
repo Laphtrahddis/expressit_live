@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(403).json("Token is not valid!"); // If token is invalid, return 403 Forbidden
     }
-    req.userId = decoded.id; // Save user ID from token to request object
+    req.userId = decoded._id; // Save user ID from token to request object
     // console.log("passed")
     next();
   });
