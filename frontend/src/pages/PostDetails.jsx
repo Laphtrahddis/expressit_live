@@ -17,6 +17,8 @@ const PostDetails = () => {
   const postId=useParams().id;
   const [post, setPost] =useState({});
   const {user} = useContext(UserContext);
+  const [comments,setComments]=useState([]);
+  const [comment, setComment] = useState("");
   const [loader, setLoader] = useState(true);
   const navigate=useNavigate()
   
@@ -53,6 +55,39 @@ const PostDetails = () => {
   useEffect(()=>{
     fetchPost();
   },[postId]);
+
+  const fetchPostComments=async()=>{
+    try {
+      const res=await axios.get(URL+"/api/comments/post/"+postId);
+      // console.log(res.data);
+      setComments(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  useEffect(()=>{
+    fetchPostComments();
+  },[postId])
+
+
+  const postComment=async(e)=>{
+   e.preventDefault()
+   try{
+    const res=await axios.post(URL+"/api/comments/create",
+      {comment:comment,author:user.username,postId:postId,userId:user._id},
+      {withCredentials:true});
+      
+      // fetchPostComments();
+      // setComment("");
+      window.location.reload();
+
+
+   }
+   catch(err){
+    console.log(err.message);
+   }
+  }
 
   return (
     <div>
@@ -99,19 +134,20 @@ const PostDetails = () => {
         </div>
         <div className="flex flex-col mt-4">
           <h3 className="mt-6 mb-4 font-semibold ">Comments:</h3>
-          <Comment />
-          <Comment />
+          {comments?.map((c)=>(
+          <Comment key={c._id} c={c} post={post} />
+         ))}
         </div>
 
         {/* write a comment! */}
         
         <div className="flex items-center justify-between mt-4">
-          <input
+          <input onChange={(e)=>setComment(e.target.value)}
             type="text"
             placeholder="Add a comment..."
             className="px-4 py-2 border border-gray-300 rounded-lg w-full"
           />
-          <button className="bg-black text-white px-4 py-2 rounded-lg ml-4">
+          <button onClick={postComment} className="bg-black text-white px-4 py-2 rounded-lg ml-4">
             Submit
           </button>
           </div>

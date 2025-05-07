@@ -1,14 +1,17 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { ImCross } from "react-icons/im";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { URL } from "../url";
 import { useEffect } from 'react';
+import { UserContext } from '../context/UserContext';
 
 const EditPost = () => {
   const postId=useParams().id;
+  const {user} = useContext(UserContext);
+  const navigate=useNavigate()
   const [title,setTitle]=useState("")
   const [desc,setDesc]=useState("")
   const [file,setFile]=useState(null)
@@ -27,7 +30,51 @@ const EditPost = () => {
           catch(err){
             console.log(err)
           }
+
         }
+
+        const handleUpdate = async (e) => {
+          e.preventDefault()
+      const post={
+        title,
+        desc,
+        username:user.username,
+        userId:user._id,
+        categories:cats
+      }
+      if(file){
+        const data = new FormData()
+        const filename = Date.now() + file.name
+        data.append("img",filename)
+        data.append("file",file)
+        post.photo=filename
+        //img upload
+        try {
+          const imgUpload=await axios.post(URL+"/api/upload",data)
+          
+          // console.log(imgUpload.data)
+          
+        }
+        catch (error) {
+          console.log(error.message)
+        }
+      }
+      //post upload
+      try{
+        const res = await axios.put(URL+"/api/posts/"+postId,post,{withCredentials:true})
+        navigate("/posts/post/"+res.data._id)
+        // console.log(res.data)
+
+
+      }
+      catch(err){
+        console.log(err.message)
+
+      }
+
+        }
+
+
         useEffect(()=>{
           fetchPost()
         },[postId])
@@ -85,7 +132,7 @@ const EditPost = () => {
             </div>
           </div>
           <textarea onChange={(e) => setDesc(e.target.value)} value={desc} rows={15} cols={30} className='px-4 py-2 outline-none' placeholder='Enter post description'/>
-      <button className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Update</button>
+      <button onClick={handleUpdate} className='bg-black w-full md:w-[20%] mx-auto text-white font-semibold px-4 py-2 md:text-xl text-lg'>Update</button>
         </form>
       </div>
       <Footer />

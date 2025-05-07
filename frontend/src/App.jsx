@@ -11,6 +11,7 @@ import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import Profile from "./pages/Profile"; // Ensure the correct path to Profile component
 import { UserContextProvider } from "./context/UserContext";
+import MyBlogs from "./pages/myBlogs"; // Ensure the correct path to myBlogs component
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,7 +24,8 @@ function App() {
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/posts/post/:id" element={<PostDetails />} /> 
           <Route exact path="/write" element={<CreatePost />} />  
-          <Route exact path="/edit/:id" element={<EditPost />} /> 
+          <Route exact path="/edit/:id" element={<EditPost />} />
+          <Route exact path="/myBlogs/:id" element={<MyBlogs />} /> 
           <Route exact path="/profile/:id" element={<Profile />} />   
         </Routes>
     </UserContextProvider>
