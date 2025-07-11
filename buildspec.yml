@@ -26,10 +26,8 @@ phases:
       - cd ../backend
       - cp ../appspec.yml .
       - cp -r ../scripts .
-      # optional cleanup
-      # - npm prune --production
 
 artifacts:
-  base-directory: backend
+  base-directory: .
   files:
     - '**/*'
