@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18 # IMPORTANT: Change to your Node.js version (e.g., 16, 20). Match what you tested with locally.
+      nodejs: 20.17.0 # IMPORTANT: Change to your Node.js version (e.g., 16, 20). Match what you tested with locally.
     commands:
       - echo "Installing frontend dependencies..."
       - cd frontend # Navigate into your frontend directory
