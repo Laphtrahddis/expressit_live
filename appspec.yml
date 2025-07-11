@@ -1,22 +1,21 @@
 version: 0.0
 os: linux
 files:
-  - source: / # Copy all build artifacts from S3 root
-    destination: /var/www/ExpressIt # Destination on the EC2 instance
+  - source: /
+    destination: /var/www/ExpressIt  # ✅ unchanged, set by you
+
 hooks:
   BeforeInstall:
-    - location: scripts/before_install.sh
+    - location: script/before_install.sh  # ✅ changed: was `scripts`, now `script`
       timeout: 300
-      runas: root # Or ec2-user if permissions allow
+      runas: root
+
   ApplicationStop:
-    - location: scripts/app_stop.sh
+    - location: script/app_stop.sh  # ✅ changed: was `scripts`, now `script`
       timeout: 60
       runas: root
+
   ApplicationStart:
-    - location: scripts/app_start.sh
+    - location: script/app_start.sh  # ✅ changed: was `scripts`, now `script`
       timeout: 120
       runas: root
-  # ValidateService: # Optional: check if the service is running correctly
-  #   - location: scripts/validate_service.sh
-  #     timeout: 60
-  #     runas: root

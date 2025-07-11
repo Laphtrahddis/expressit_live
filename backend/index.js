@@ -55,6 +55,13 @@ app.post("/api/upload",upload.single("file"),(req,res)=>{
     res.status(200).json("Images has been uploaded successfully")
 })
 
+// ✅ Serve static frontend files built by Vite
+app.use(express.static(path.join(__dirname, "public"))); // public has index.html and assets/
+
+// ✅ Handle SPA fallback — send index.html for unknown routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 
 
@@ -62,4 +69,3 @@ app.listen(process.env.PORT,()=>{
     connectDB()
     console.log("Server is running on port at "+process.env.PORT)
 })
-
