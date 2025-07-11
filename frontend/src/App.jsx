@@ -11,7 +11,7 @@ import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import Profile from "./pages/Profile"; // Ensure the correct path to Profile component
 import { UserContextProvider } from "./context/UserContext";
-import MyBlogs from "./pages/myBlogs"; // Ensure the correct path to myBlogs component
+import MyBlogs from "./pages/MyBlogs"; // Ensure the correct path to myBlogs component
 
 function App() {
   const [count, setCount] = useState(0);
