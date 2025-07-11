@@ -1,22 +1,36 @@
-version: 0.0
-os: linux
-files:
-  - source: / # Copy all build artifacts from S3 root
-    destination: /var/www/ExpressIt # Destination on the EC2 instance
-hooks:
-  BeforeInstall:
-    - location: scripts/before_install.sh
-      timeout: 300
-      runas: root # Or ec2-user if permissions allow
-  ApplicationStop:
-    - location: scripts/app_stop.sh
-      timeout: 60
-      runas: root
-  ApplicationStart:
-    - location: scripts/app_start.sh
-      timeout: 120
-      runas: root
-  # ValidateService: # Optional: check if the service is running correctly
-  #   - location: scripts/validate_service.sh
-  #     timeout: 60
-  #     runas: root
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18 # IMPORTANT: Change to your Node.js version (e.g., 16, 20). Match what you tested with locally.
+    commands:
+      - echo "Installing frontend dependencies..."
+      - cd frontend # Navigate into your frontend directory
+      - npm install # Install frontend dependencies
+      - cd .. # Go back to the repository root
+
+      - echo "Installing backend dependencies..."
+      - cd backend # Navigate into your backend directory
+      - npm install # Install backend dependencies
+      - cd .. # Go back to the repository root
+
+  build:
+    commands:
+      - echo "Building frontend (Vite)..."
+      - cd frontend
+      - npm run build # This command runs your Vite build
+      - cd ..
+
+      - echo "Backend has no specific build step, ensuring dependencies are in place."
+      - # Node.js backends typically don't have a 'build' command like frontends.
+
+  post_build:
+    commands:
+      - echo "Build completed successfully."
+
+artifacts:
+  files:
+    - '**/*' # This tells CodeBuild to include ALL files from the repository in the output artifact
+  base-directory: . # The root of your repository is the base for the artifact
+  discard-paths: no # Keep the original directory structure (frontend/, backend/, etc.)

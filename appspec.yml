@@ -1,21 +1,17 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /var/www/ExpressIt  # ✅ unchanged, set by you
+  - source: /backend
+    destination: /home/ubuntu/expressit/backend # Path on your EC2 instance for backend code
+  - source: /scripts
+    destination: /home/ubuntu/expressit/scripts # Path on your EC2 instance for deployment scripts
 
 hooks:
   BeforeInstall:
-    - location: script/before_install.sh  # ✅ changed: was `scripts`, now `script`
+    - location: scripts/before_install.sh
       timeout: 300
-      runas: root
-
-  ApplicationStop:
-    - location: script/app_stop.sh  # ✅ changed: was `scripts`, now `script`
-      timeout: 60
-      runas: root
-
+      runas: ubuntu
   ApplicationStart:
-    - location: script/app_start.sh  # ✅ changed: was `scripts`, now `script`
-      timeout: 120
-      runas: root
+    - location: scripts/start_server.sh
+      timeout: 300
+      runas: ubuntu
