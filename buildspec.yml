@@ -3,44 +3,33 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20.17.0 # Make sure this matches your local Node.js version (e.g., 16, 20)
+      nodejs: 20
     commands:
-      # Clean npm cache and node_modules for a fresh install
-      - echo "Cleaning npm cache and node_modules for frontend..."
-      - cd frontend
-      - npm cache clean --force
-      - rm -rf node_modules
-      - echo "Installing frontend dependencies (verbose)..."
-      - npm install --verbose # Added --verbose for more detailed logs
-      - cd .. # Go back to the repository root
-
-      - echo "Cleaning npm cache and node_modules for backend..."
+      - echo Installing backend dependencies...
       - cd backend
-      - npm cache clean --force
-      - rm -rf node_modules
-      - echo "Installing backend dependencies (verbose)..."
-      - npm install --verbose # Added --verbose for more detailed logs
-      - cd .. # Go back to the repository root
+      - npm install
+      - echo Installing frontend dependencies...
+      - cd ../frontend
+      - npm install
 
   build:
     commands:
-      - echo "Building frontend (Vite) with verbose output..."
-      - cd frontend
-      - npm run build --verbose # Added --verbose for more detailed logs
-      - cd ..
-
-      - echo "Backend has no specific build step, ensuring dependencies are in place."
+      - echo Building Vite frontend...
+      - npm run build
+      - echo Copying Vite build to backend/public...
+      - mkdir -p ../backend/public
+      - cp -r dist/* ../backend/public/
 
   post_build:
     commands:
-      - echo "Build completed successfully (POST_BUILD phase)."
-      - echo "Initiating CloudFront cache invalidation..."
-      # IMPORTANT: Replace YOUR_CLOUDFRONT_DISTRIBUTION_ID with your actual CloudFront Distribution ID
-      - aws cloudfront create-invalidation --distribution-id YOUR_CLOUDFRONT_DISTRIBUTION_ID --paths "/index.html" "/*"
-      - echo "CloudFront invalidation command issued."
+      - echo Build completed on date
+      - cd ../backend
+      - cp ../appspec.yml .
+      - cp -r ../scripts .
+      # optional cleanup: remove dev dependencies
+      # - npm prune --production
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: .
-  discard-paths: no
+    - "/*"
+  base-directory: backend
