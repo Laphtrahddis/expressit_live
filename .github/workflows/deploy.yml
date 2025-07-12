@@ -19,9 +19,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            rm -rf mern-app || true
+            sudo rm -rf mern-app || true
             git clone https://github.com/Laphtrahddis/expressit_live.git mern-app
             cd mern-app
-            docker-compose down || true
-            docker-compose build
-            docker-compose up -d --remove-orphans
+            docker compose down || true
+            docker compose build --no-cache
+            docker compose up -d --remove-orphans
+
