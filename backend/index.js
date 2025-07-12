@@ -30,7 +30,7 @@ dotenv.config()
 app.use(express.json())
 app.use("/images",express.static(path.join(__dirname,"/images"))) //for image upload
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin: true, // or set to actual frontend domain when live
     credentials:true
 }))
 app.use(cookieParser())
@@ -55,13 +55,6 @@ app.post("/api/upload",upload.single("file"),(req,res)=>{
     res.status(200).json("Images has been uploaded successfully")
 })
 
-// ✅ Serve static frontend files built by Vite
-app.use(express.static(path.join(__dirname, "public"))); // public has index.html and assets/
-
-// ✅ Handle SPA fallback — send index.html for unknown routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 
 
 
