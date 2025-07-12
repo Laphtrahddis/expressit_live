@@ -1,2 +1,2 @@
-export const URL = "http://backend:5000";
-export const IF = "http://backend:5000/images/";
+export const URL = "http://13.235.67.37";
+export const IF = "http://13.235.67.37/images/";

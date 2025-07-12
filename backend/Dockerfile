@@ -1,12 +1,15 @@
+# backend/Dockerfile
 FROM node:18
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-COPY .env .env
 
-ENV PORT=5000
+COPY package*.json ./
+
+# Reinstall bcrypt cleanly inside the container
+RUN npm install bcrypt && npm install
+
+COPY . .
+
 EXPOSE 5000
 
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
