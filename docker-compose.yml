@@ -1,7 +1,7 @@
-version: '3'
+version: "3"
 services:
   backend:
-    build: ./backend
+    image: yourdockerhub/mern-backend
     container_name: backend
     restart: always
     env_file:
@@ -12,7 +12,7 @@ services:
       - ./backend/images:/app/images
 
   frontend:
-    build: ./frontend
+    image: yourdockerhub/mern-frontend
     container_name: frontend
     restart: always
     ports:
