@@ -24,7 +24,7 @@ const Navbar = () => {
  
   return (
     <div className="flex items-center justify-between px-6 md:px-[200px] py-4">
-       <h1 className="text-lg md:text-xl font-extrabold"><Link to="/">ExpressIt</Link></h1>
+       <h1 className="text-lg md:text-xl font-extrabold"><Link to="/">ExpressItLive</Link></h1>
        {path==="/"&&<div className="flex justify-center items-center space-x-0">
         <p onClick={()=>navigate(search?"?search="+search:navigate("/"))} className="cursor-pointer"><BsSearch/></p>
         <input onChange={(e)=>setSearch(e.target.value)} className='outline-none px-3 py-1 ' placeholder='Search a post' type="text" />
