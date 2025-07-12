@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+COPY .env .env
 
 ENV PORT=5000
 EXPOSE 5000
