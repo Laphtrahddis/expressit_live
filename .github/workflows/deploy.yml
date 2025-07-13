@@ -19,10 +19,19 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo rm -rf mern-app || true
-            git clone https://github.com/Laphtrahddis/expressit_live.git mern-app
-            cd mern-app
-            docker compose down || true
-            docker compose build --no-cache
-            docker compose up -d --remove-orphans
+              # 🔥 Kill everything properly
+              docker compose down --volumes --remove-orphans || true
+
+              # 🔥 Delete all unused Docker stuff (including old images/containers)
+              docker system prune -a -f
+
+              # ✅ Clean clone your repo
+              sudo rm -rf mern-app || true
+              git clone https://github.com/Laphtrahddis/expressit_live.git mern-app
+              cd mern-app
+
+              # 🚀 Rebuild and run fresh containers
+              docker compose build --no-cache
+              docker compose up -d --remove-orphans
+
 
